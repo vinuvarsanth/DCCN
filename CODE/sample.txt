@@ -1,0 +1,68 @@
+Example:
+Scenario:
+
+You have 3 frames, each 8 bits long:
+Frame 1: 11001100
+Frame 2: 10101010
+Frame 3: 11110000
+We will calculate the checksum at the sender, then simulate the received frames (which include the checksum) to verify if the data was received correctly.
+
+Step 1: Calculate Checksum at the Sender
+Convert each frame to decimal:
+
+Frame 1: 11001100 = 204
+Frame 2: 10101010 = 170
+Frame 3: 11110000 = 240
+Sum the decimal values:
+
+Sum = 204 + 170 + 240 = 614
+Handle overflow (keep the sum within 8 bits):
+
+The maximum value for 8 bits is 255 (2^8 - 1).
+To handle overflow, we calculate the carry and adjust the sum.
+The overflow calculation is:
+614 % 256 = 102 (this is the part that fits within 8 bits)
+614 / 256 = 2 (carry, which will be added back)
+Add the carry:
+
+New sum = 102 + 2 = 104 (after handling overflow)
+Calculate one's complement:
+
+The one's complement of 104 in binary is:
+104 in binary: 01101000
+One's complement (flip the bits): 10010111
+Checksum:
+
+The checksum is 10010111.
+Step 2: Transmit Frames with Checksum
+The frames sent from the sender to the receiver would now include:
+
+Frame 1: 11001100
+Frame 2: 10101010
+Frame 3: 11110000
+Checksum: 10010111
+Step 3: Verify Checksum at the Receiver
+Receiver gets all frames including checksum:
+
+Frame 1: 11001100 = 204
+Frame 2: 10101010 = 170
+Frame 3: 11110000 = 240
+Checksum: 10010111 = 151
+Sum the frames and the checksum:
+
+Sum = 204 + 170 + 240 + 151 = 765
+Handle overflow (keep the sum within 8 bits):
+
+The overflow calculation is:
+765 % 256 = 253
+765 / 256 = 2 (carry)
+Add the carry:
+
+New sum = 253 + 2 = 255
+Check if the result is all ones:
+
+255 in binary is 11111111, which is all ones.
+This means the data was received correctly, with no errors.
+Conclusion:
+Since the final sum is all ones (11111111), the checksum verification succeeded, indicating that there was no error in the transmitted data.
+In this example, the checksum 10010111 was calculated at the sender. The receiver verified that the transmitted data (including the checksum) resulted in an all-ones sum, confirming the data's integrity.

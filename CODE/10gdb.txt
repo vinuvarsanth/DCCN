@@ -1,0 +1,99 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {  // Main class declared as public
+    public static void main(String[] args) {
+        int no_of_queries, storage, output_pkt_size;
+        int input_pkt_size, bucket_size, size_left;
+
+        // Initial packets in the bucket
+        storage = 0;
+
+        // Total number of times bucket content is checked
+        no_of_queries = 4;
+
+        // Total number of packets that can be accommodated in the bucket
+        bucket_size = 10;
+
+        // Number of packets that enters the bucket at a time
+        input_pkt_size = 4;
+
+        // Number of packets that exits the bucket at a time
+        output_pkt_size = 1;
+
+        for (int i = 0; i < no_of_queries; i++) {
+            size_left = bucket_size - storage; // space left in the bucket
+
+            if (input_pkt_size <= size_left) {
+                // If the input packet fits in the bucket, add it
+                storage += input_pkt_size;
+            } else {
+                // Packet loss occurs if it doesn't fit
+                System.out.println("Packet loss = " + input_pkt_size);
+            }
+
+            // Print the current state of the bucket
+            System.out.println("Buffer size= " + storage + " out of bucket size= " + bucket_size);
+
+            // Packets exit the bucket
+            storage -= output_pkt_size;
+
+            // Ensure storage does not go below 0
+            if (storage < 0) {
+                storage = 0;
+            }
+        }
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Accept custom input for bucket parameters
+        System.out.print("Enter the number of times bucket is checked (no_of_queries): ");
+        int no_of_queries = scanner.nextInt();
+
+        System.out.print("Enter the bucket size (bucket_size): ");
+        int bucket_size = scanner.nextInt();
+
+        System.out.print("Enter the input packet size (input_pkt_size): ");
+        int input_pkt_size = scanner.nextInt();
+
+        System.out.print("Enter the output packet size (output_pkt_size): ");
+        int output_pkt_size = scanner.nextInt();
+
+        int storage = 0;  // Initial packets in the bucket
+        int size_left;    // Remaining space in the bucket
+
+        // Loop to simulate bucket checks
+        for (int i = 0; i < no_of_queries; i++) {
+            size_left = bucket_size - storage;  // Calculate space left in the bucket
+
+            // If input packet fits in the bucket, add it
+            if (input_pkt_size <= size_left) {
+                storage += input_pkt_size;
+            } else {
+                // Packet loss if the input packet size exceeds the available space
+                System.out.println("Packet loss = " + input_pkt_size);
+            }
+
+            // Print the current state of the bucket
+            System.out.println("Buffer size = " + storage + " out of bucket size = " + bucket_size);
+
+            // Packets exit the bucket after each iteration
+            storage -= output_pkt_size;
+
+            // Ensure storage does not go below zero
+            if (storage < 0) {
+                storage = 0;
+            }
+        }
+
+        scanner.close();
+    }
+}
